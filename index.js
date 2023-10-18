@@ -26,7 +26,33 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+    const database = client.db("brandDB");
+    const brandCollection = database.collection("brand");
+    const cartCollection = client.db("cartDB").collection("cart");
+    app.get('/brand',async(req,res)=>{
+      const cursor = brandCollection.find()
+      const result  = await cursor.toArray();
+      res.send(result);
+    } )
+    app.get('/cart',async(req,res)=>{
+      const cursor = cartCollection.find()
+      const result  = await cursor.toArray();
+      res.send(result);
+    } )
+   app.post('/brand',async(req,res)=>{
+    const brands= req.body;
+    console.log(brands);
+    const result = await brandCollection.insertOne(brands);
+    res.send(result);
 
+   })
+   app.post('/cart',async(req,res)=>{
+    const cart= req.body;
+    console.log(cart);
+    const result = await cartCollection.insertOne(cart);
+    res.send(result);
+
+   })
 
 
 
