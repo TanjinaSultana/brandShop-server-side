@@ -46,5 +46,5 @@ app.get('/',(req,res)=>{
     res.send("brand names")
 } )
 app.listen(port,(req,res)=>{
-    console.log(`server is running ${port}`);
+    console.log(`server side  is running ${port}`);
 } )
