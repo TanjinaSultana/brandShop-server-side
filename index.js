@@ -39,6 +39,15 @@ async function run() {
       const result  = await cursor.toArray();
       res.send(result);
     } )
+    app.get('/brand/:id',async(req,res)=>{
+      const id = req.params.id;
+      //console.log(id);
+      const query = {_id: new ObjectId(id) };
+      const result = await brandCollection.findOne(query);
+      res.send(result);
+    } )
+
+    
    app.post('/brand',async(req,res)=>{
     const brands= req.body;
     console.log(brands);
@@ -53,6 +62,28 @@ async function run() {
     res.send(result);
 
    })
+   app.put('/brand/:id',async(req,res)=>{
+    const id = req.params.id;
+    const updatedUser = req.body;
+    console.log(updatedUser);
+    const filter = {_id: new ObjectId(id) };
+    const options = { upsert: true };
+    const userUpdate = {
+      $set: {
+        name: updatedUser.name,
+        image: updatedUser.image,
+        brand: updatedUser.brand,
+        type: updatedUser.type,
+        shortDescription: updatedUser.shortDescription,
+        price: updatedUser.price,
+        rating:updatedUser.rating
+      },
+    }
+    const result = await brandCollection.updateOne(filter, userUpdate, options);
+    res.send(result)
+
+   })
+   
    app.delete('/cart/:id',async(req,res)=>{
     const id = req.params.id;
     console.log('delete',id);
